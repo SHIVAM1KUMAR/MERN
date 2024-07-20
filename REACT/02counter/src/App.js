@@ -8,6 +8,7 @@ let [counter,setCounter]=useState(15)
   //let counter =15
   const addValue = () =>{
     // console.log("value added", Math.random());
+    console.log("SHIVAM KUMAR");
      console.log("clicked",counter);
      counter=counter+1
      setCounter(counter)
