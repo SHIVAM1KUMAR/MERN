@@ -1,0 +1,5 @@
+For global Object go to any browser which  you are using 
+* Inspect it
+* Go to console of that
+*Peform there your tast
+Directly
