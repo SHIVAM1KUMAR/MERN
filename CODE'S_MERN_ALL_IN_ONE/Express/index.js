@@ -6,14 +6,49 @@ const cookieParser = require('cookie-parser');
 
 const app=express();
 app.use(cookieParser());
+app.set("view engine","ejs");
+
 
 app.get("/example",(req,res)=>{
-    const cookies=req.cookies;
-    console.log(cookies);
-    res.cookie("name","sk");
-    res.cookie("age","32");
-    res.send("Example cookies route");
+   // res.send("<h1>HEllo</h1>");
+res.render("pages/home.ejs");
+
+
+
 });
+
+
+
+
+
+
+
+
+
+
+// app.get("/test",(req,res)=>{
+//     res.send("test restponse");
+// });
+
+// app.get("/example",(req,res)=>{
+//    //res.location("/xyz");
+//    res.set("title","express");
+//  res.json({
+//     name:"shivam",
+//     email:"sk@s.com",
+//  });
+
+//res.redirect("/test");
+
+    // const cookies=req.cookies;
+    // console.log(cookies);
+    // res.cookie("name","sk");
+    // res.cookie("age","32");
+    // console.log(req.hostname);
+    // console.log(req.ip);
+    // console.log(req.get("accept"));
+    // res.send("Example cookies route");
+// });
 
 
 
