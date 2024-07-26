@@ -1,20 +1,53 @@
 console.log("Welcome to express.js");
 
 const express=require("express");
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
+const mongodb=require("mongodb");
 
 
 const app=express();
-app.use(cookieParser());
-app.set("view engine","ejs");
+app.use(express.json());
+
+//  const connectionUrl="mongodb://localhost:27017";
+ const client= new mongodb.MongoClient("mongodb://127.0.0.1:27017");
+
+ client
+ .connect()
+ .then(()=>console.log("Database connection is sucessful"))
+ .catch((error)=>console.log(error));
+
+ const db=client.db("schoolDb");
+
+ const student=db.collection("student"); 
 
 
-app.get("/example",(req,res)=>{
-   // res.send("<h1>HEllo</h1>");
-res.render("pages/home.ejs");
+app.post("/student",(req,res,next)=>{
+    const{name,email,age,dep}=req.body;
+    student
+    .insertOne({
+          name:name,
+          email:email,
+          age:age,
+          dep:dep,
+  })
+  .then(() => res.status(201).send("student added succesfully"))
+  .catch((error)=>res.status(500).send(error.message));
+});
 
 
 
+
+
+// const errorMiddleware=(error,req,res,next)=>{
+//     res.status(500).send(error.message);
+// };
+
+// app.use(errorMiddleware);
+
+
+
+app.listen(8000,()=>{
+    console.log("server is runningon port 8000");
 });
 
 
@@ -22,6 +55,18 @@ res.render("pages/home.ejs");
 
 
 
+
+// app.use(cookieParser());
+// app.set("view engine","ejs");
+
+
+// app.get("/example",(req,res)=>{
+//    // res.send("<h1>HEllo</h1>");
+// res.render("pages/home.ejs");
+
+
+
+// });
 
 
 
@@ -92,9 +137,6 @@ res.render("pages/home.ejs");
 
 
 
-app.listen(8000,()=>{
-    console.log("server is runningon port 8000");
-});
 
 
 
