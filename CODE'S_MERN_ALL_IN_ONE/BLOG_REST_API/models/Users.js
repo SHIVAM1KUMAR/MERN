@@ -6,7 +6,7 @@ const userSchema=mongoose.Schema({
     password:{type:String,required:true,minlength:6},
     role:{type:Number,default:3},
     verificationCode:String,
-    isVeriFied:{type:Boolean,default:false},
+    isVerified:{type:Boolean,default:false},
     
 },
 {timestamps:true}

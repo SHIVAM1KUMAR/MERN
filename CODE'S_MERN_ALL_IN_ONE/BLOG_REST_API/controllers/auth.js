@@ -2,6 +2,8 @@ const{User}=require("../models");
 const hashPassword=require("../utils/hashPassword");
 const comparePassword=require("../utils/comparePassword");
 const generateToken=require("../utils/genetrateToken");
+const generatecode=require("../utils/generatecode");
+const sendEmails =require("../utils/sendEmails");
 
 
 
@@ -80,10 +82,36 @@ const signin =async(req,res,next)=>{
 
 const verifyCode=async(req,res,next)=>{
     try {
-        
+        const {email}=req.body;
+        const user =await User.findOne({email});
+        if(!user){
+            res.code=404;
+            throw new Error ("User not Found");
+        }
+        if(user.isVerified){
+            res.code=400;
+            throw new Error("User is verified");
+        }
+  
+        const code=generatecode(6);
+
+        user.verificationCode=code;
+
+        await user.save();
+//send email
+await sendEmails({
+    emailtTo:user.email,
+    subject:"Email verification code",
+    code,
+    content:"verify your account"
+
+});
+
+res.status(200).json({code:200,status:true,message:"User code sent done"});
+
     } catch (error) {
         next(error)
     }
 }
 
-module.exports={signup,signin};
+module.exports={signup,signin,verifyCode};
